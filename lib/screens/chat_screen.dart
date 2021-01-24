@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/constants.dart';
 
 class ChatScreen extends StatefulWidget {
+  static const String id = 'chat';
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -20,7 +21,7 @@ class _ChatScreenState extends State<ChatScreen> {
               }),
         ],
         title: Text('⚡️Chat'),
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.deepPurple[500],
       ),
       body: SafeArea(
         child: Column(

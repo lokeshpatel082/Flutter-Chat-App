@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "512833486465",
+    "project_id": "flash-chat-aa21f",
+    "storage_bucket": "flash-chat-aa21f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512833486465:android:1c9512f2eacaf51dfb5780",
+        "android_client_info": {
+          "package_name": "com.iamloki.flash_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512833486465-cq9o1irrs0jamki8f6asejbehm24qve8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD-9L4moT3G3uZJKJI3M_xLlOU2hTWeLw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512833486465-cq9o1irrs0jamki8f6asejbehm24qve8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

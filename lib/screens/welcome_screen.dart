@@ -3,6 +3,7 @@ import 'package:flutter_chat_app/screens/login_screen.dart';
 import 'package:flutter_chat_app/screens/registration_screen.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_chat_app/components/rounded_button.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
@@ -16,6 +17,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   Animation animation;
   @override
   void initState() {
+    Firebase.initializeApp().whenComplete(() {
+      setState(() {});
+    });
     super.initState();
     controller = AnimationController(
       duration: Duration(seconds: 1),
@@ -64,7 +68,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               height: 48.0,
             ),
             RoundedButton(
-              color: Colors.deepPurple[400],
+              color: Colors.deepPurpleAccent,
               onPressed: () {
                 Navigator.pushNamed(context, LoginScreen.id);
               },

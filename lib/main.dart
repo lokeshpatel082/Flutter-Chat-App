@@ -3,12 +3,19 @@ import 'package:flutter_chat_app/screens/welcome_screen.dart';
 import 'package:flutter_chat_app/screens/login_screen.dart';
 import 'package:flutter_chat_app/screens/chat_screen.dart';
 import 'package:flutter_chat_app/screens/registration_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() {
   runApp(FlashChat());
 }
 
 class FlashChat extends StatelessWidget {
+  void initState() {
+    Firebase.initializeApp().whenComplete(() {
+      print("completed");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

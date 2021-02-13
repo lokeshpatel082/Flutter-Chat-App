@@ -12,13 +12,14 @@ void main() {
 class FlashChat extends StatelessWidget {
   void initState() {
     Firebase.initializeApp().whenComplete(() {
-      print("completed");
+      // print("completed");
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData.dark().copyWith(
           textTheme: TextTheme(
             // ignore: deprecated_member_use

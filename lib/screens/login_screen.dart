@@ -83,7 +83,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     setState(() {
                       showProgress = false;
                     });
-                  } catch (e) {}
+                  } on FirebaseAuthException catch (e) {
+                    setState(() {
+                      showProgress = false;
+                    });
+                    if (e.code == 'user-not-found') {
+                      print('No user found for that email.');
+                    } else if (e.code == 'wrong-password') {
+                      print('Wrong password provided for that user.');
+                    }
+                  } catch (e) {
+                    setState(() {
+                      showProgress = false;
+                    });
+                    print(e);
+                  }
                 },
                 color: Colors.deepPurpleAccent,
                 text: 'Login',

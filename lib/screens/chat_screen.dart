@@ -30,6 +30,16 @@ class _ChatScreenState extends State<ChatScreen> {
       if (user != null) {
         loggedInUser = user;
       }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      } else if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
     } catch (e) {
       print(e);
     }
@@ -131,11 +141,9 @@ class MessageStream extends StatelessWidget {
           final currentUser = loggedInUser.email;
           var date = DateTime.fromMillisecondsSinceEpoch(
               message.data()['time'].millisecondsSinceEpoch);
-          // var formattedDate = DateFormat.d().format(date);
-          // var formattedMonth = DateFormat.MMM().format(date);
+
           var formattedTime = DateFormat.jm().format(date);
           String timeLabel = '$formattedTime';
-          print(timeLabel);
           final messageBubble = MessageBubble(
             sender: messageSender,
             text: messageText,

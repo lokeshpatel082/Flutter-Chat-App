@@ -4,6 +4,7 @@ import 'package:flutter_chat_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_app/screens/chat_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:flutter_chat_app/components/build_popup.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login';
@@ -88,8 +89,22 @@ class _LoginScreenState extends State<LoginScreen> {
                       showProgress = false;
                     });
                     if (e.code == 'user-not-found') {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => BuildPopUp(
+                          title: "User Not Found",
+                          description: 'pahle register to karle bhai',
+                        ),
+                      );
                       print('No user found for that email.');
                     } else if (e.code == 'wrong-password') {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => BuildPopUp(
+                          title: "User Not Found",
+                          description: 'You have entered wrong password',
+                        ),
+                      );
                       print('Wrong password provided for that user.');
                     }
                   } catch (e) {
@@ -109,3 +124,25 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+// Widget _buildPopupDialog(BuildContext context) {
+//   return new AlertDialog(
+//     title: const Text('Popup example'),
+//     content: new Column(
+//       mainAxisSize: MainAxisSize.min,
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: <Widget>[
+//         Text("Hello"),
+//       ],
+//     ),
+//     actions: <Widget>[
+//       new FlatButton(
+//         onPressed: () {
+//           Navigator.of(context).pop();
+//         },
+//         textColor: Theme.of(context).primaryColor,
+//         child: const Text('Close'),
+//       ),
+//     ],
+//   );
+// }

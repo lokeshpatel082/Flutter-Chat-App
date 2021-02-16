@@ -8,15 +8,24 @@ const kSendButtonTextStyle = TextStyle(
 
 const kMessageTextFieldDecoration = InputDecoration(
   contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-  hintText: 'Type your message here...',
-  hintStyle: TextStyle(color: Colors.blueGrey),
+  hintText: 'Aa...',
+  hintStyle: TextStyle(
+    color: Colors.grey,
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  ),
   border: InputBorder.none,
 );
 
 const kMessageContainerDecoration = BoxDecoration(
+  borderRadius: BorderRadius.all(Radius.circular(30)),
   border: Border(
-    top: BorderSide(color: Colors.indigoAccent, width: 2.0),
+    top: BorderSide(color: Color(0xffd1c4e9), width: 2.0),
+    right: BorderSide(color: Color(0xffd1c4e9), width: 2.0),
+    left: BorderSide(color: Color(0xffd1c4e9), width: 2.0),
+    bottom: BorderSide(color: Color(0xffd1c4e9), width: 2.0),
   ),
+  color: Color(0xffEFEFEF),
 );
 const kTextFieldDecoration = InputDecoration(
   hintText: 'Enter your password',

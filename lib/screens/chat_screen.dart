@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_chat_app/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_chat_app/components/input_widget.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+
+import 'package:flutter_chat_app/components/emoji_picker_widget.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
@@ -15,6 +18,8 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final messageTextController = TextEditingController();
+  bool isEmojiVisible = false;
+  bool isKeyboardVisible = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String messageText;
@@ -22,6 +27,17 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     getCurrentUser();
     super.initState();
+    KeyboardVisibilityController().onChange.listen((bool isKeyboardVisible) {
+      setState(() {
+        this.isKeyboardVisible = isKeyboardVisible;
+      });
+
+      if (isKeyboardVisible && isEmojiVisible) {
+        setState(() {
+          isEmojiVisible = false;
+        });
+      }
+    });
   }
 
   void getCurrentUser() {
@@ -76,46 +92,54 @@ class _ChatScreenState extends State<ChatScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             MessageStream(),
-            Container(
-              decoration: kMessageContainerDecoration,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                      controller: messageTextController,
-                      onChanged: (value) {
-                        messageText = value;
-                      },
-                      decoration: kMessageTextFieldDecoration,
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: () {
-                      messageTextController.clear();
-                      var timeStamp = DateTime.now();
-                      print(timeStamp.month);
-                      _firestore.collection('messages').add({
-                        'text': messageText,
-                        'sender': loggedInUser.email,
-                        'time': timeStamp
-                      });
-                    },
-                    child: Text(
-                      'Send',
-                      style: kSendButtonTextStyle,
-                    ),
-                  ),
-                ],
-              ),
+            InputWidget(
+                onBlurred: toggleEmojiKeyboard,
+                controller: messageTextController,
+                isEmojiVisible: isEmojiVisible,
+                isKeyboardVisible: isKeyboardVisible,
+                onSentMessage: (message) {
+                  var timeStamp = DateTime.now();
+                  print(timeStamp.month);
+                  _firestore.collection('messages').add({
+                    'text': message,
+                    'sender': loggedInUser.email,
+                    'time': timeStamp
+                  });
+                }
+                //setState(() => messages.insert(0, message)),
+                ),
+            Offstage(
+              child: EmojiPickerWidget(onEmojiSelected: onEmojiSelected),
+              offstage: !isEmojiVisible,
             ),
           ],
         ),
       ),
     );
+  }
+
+  void onEmojiSelected(String emoji) => setState(() {
+        messageTextController.text = messageTextController.text + emoji;
+      });
+
+  Future toggleEmojiKeyboard() async {
+    if (isKeyboardVisible) {
+      FocusScope.of(context).unfocus();
+    }
+
+    setState(() {
+      isEmojiVisible = !isEmojiVisible;
+    });
+  }
+
+  Future<bool> onBackPress() {
+    if (isEmojiVisible) {
+      toggleEmojiKeyboard();
+    } else {
+      Navigator.pop(context);
+    }
+
+    return Future.value(false);
   }
 }
 

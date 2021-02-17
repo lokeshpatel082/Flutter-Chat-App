@@ -75,16 +75,3 @@ class InputWidget extends StatelessWidget {
     onBlurred();
   }
 }
-
-// MaterialButton(
-//   onPressed: () {},
-//   elevation: 2.0,
-//   color: Colors.deepPurpleAccent[200],
-//   child: Icon(
-//     Icons.add,
-//     size: 15.0,
-//   ),
-//   padding: EdgeInsets.all(10.0),
-//   shape: CircleBorder(),
-//   minWidth: 10,
-// ),

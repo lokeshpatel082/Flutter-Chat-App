@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_chat_app/components/input_widget.dart';
+import 'package:flutter_chat_app/widgets/input_widget.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-
-import 'package:flutter_chat_app/components/emoji_picker_widget.dart';
+import 'package:flutter_chat_app/widgets/message_bubble_widget.dart';
+import 'package:flutter_chat_app/widgets/emoji_picker_widget.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
@@ -22,7 +22,6 @@ class _ChatScreenState extends State<ChatScreen> {
   bool isKeyboardVisible = false;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String messageText;
   @override
   void initState() {
     getCurrentUser();
@@ -61,13 +60,13 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void messagesStream() async {
-    await for (var snapshot in _firestore.collection('messages').snapshots()) {
-      for (var message in snapshot.docs) {
-        print(message.data());
-      }
-    }
-  }
+  // void messagesStream() async {
+  //   await for (var snapshot in _firestore.collection('messages').snapshots()) {
+  //     for (var message in snapshot.docs) {
+  //       print(message.data());
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +155,7 @@ class MessageStream extends StatelessWidget {
             ),
           );
         }
+
         final messages = snapshot.data.docs.reversed;
 
         List<MessageBubble> messageWidgets = [];
@@ -173,6 +173,7 @@ class MessageStream extends StatelessWidget {
             text: messageText,
             isMe: currentUser == messageSender,
             time: timeLabel,
+            reference: message.reference,
           );
           messageWidgets.add(messageBubble);
         }
@@ -183,72 +184,6 @@ class MessageStream extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class MessageBubble extends StatelessWidget {
-  MessageBubble({this.sender, this.text, this.isMe, this.time});
-  final String sender;
-  final String text;
-  final bool isMe;
-  final String time;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment:
-            isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            '$sender',
-            style: TextStyle(color: Colors.black54, fontSize: 12.0),
-          ),
-          Column(
-            crossAxisAlignment:
-                isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
-            children: [
-              Material(
-                borderRadius: isMe
-                    ? BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      )
-                    : BorderRadius.only(
-                        topRight: Radius.circular(30),
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                elevation: 5.0,
-                color: isMe ? Colors.deepPurpleAccent : Colors.white,
-                textStyle: TextStyle(
-                    fontSize: 15.0, color: isMe ? Colors.white : Colors.black),
-                child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  child: Text(
-                    '$text',
-                  ),
-                ),
-              ),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                      child: Text(
-                        '$time',
-                        style: TextStyle(color: Colors.black54, fontSize: 12.0),
-                      ),
-                    ),
-                  ]),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

@@ -24,6 +24,12 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: Colors.white,
       body: ModalProgressHUD(
         inAsyncCall: showProgress,
+        opacity: 0.3,
+        // color: Colors.grey,
+        progressIndicator: CircularProgressIndicator(
+          backgroundColor: Color(0xFF9575CD),
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
@@ -124,25 +130,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-// Widget _buildPopupDialog(BuildContext context) {
-//   return new AlertDialog(
-//     title: const Text('Popup example'),
-//     content: new Column(
-//       mainAxisSize: MainAxisSize.min,
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: <Widget>[
-//         Text("Hello"),
-//       ],
-//     ),
-//     actions: <Widget>[
-//       new FlatButton(
-//         onPressed: () {
-//           Navigator.of(context).pop();
-//         },
-//         textColor: Theme.of(context).primaryColor,
-//         child: const Text('Close'),
-//       ),
-//     ],
-//   );
-// }
